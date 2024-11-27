@@ -1,5 +1,42 @@
-include <iostream>
+#include <ncurses/ncurses.h>
+#include <unistd.h>
+#include <string.h>
+#include <iostream>
+#include <fstream>
+#include <windows.h>
+#include <cstdlib>
+
 using namespace std;
 
-int main (){
+#define DELAY 200000
+
+void print_text(const char* text, int y, int x, int color_pair) {
+    attron(COLOR_PAIR(color_pair));
+    mvprintw(y, x, "%s", text);
+    attroff(COLOR_PAIR(color_pair));
 }
+
+void progress_bar(int y, int x, int length, int duration) {
+    char spinner[] = {'|', '/', '-', '\\'};
+    for (int i = 0; i < length; i++) {
+        print_text(">", y, x + i, 1);
+        mvprintw(y, x + length + 2, "[%c]", spinner[i % 4]);
+        refresh();
+        usleep(duration);
+    }
+}
+
+void loadingScreen() {
+    initscr();
+    noecho();
+    curs_set(0);
+    start_color();
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
+    init_pair(2, COLOR_RED, COLOR_BLACK);
+    init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+    clear();
+    print_text("Loading...", 10, 30, 2);
+    print_text("--------------------", 11, 30, 3);
+    print_text("|                  |", 12, 30, 3);
+    print_text("--------------------", 13, 30, 3);
+    progress_bar(12, 31, 18, DELAY);

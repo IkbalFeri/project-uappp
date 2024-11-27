@@ -91,3 +91,66 @@ void login() {
     setColor(15);
     cout << "Enter username: ";
     cin >> userLog;
+
+myFile.open("ListAccount.txt");
+    while (myFile >> userData) {
+        if (userData == userLog) {
+            exist = true;
+            break;
+        }
+    }
+    myFile.close();
+
+    if (exist) {
+        system("cls");
+        setColor(10);
+        animatedText("Login successful!");
+        setColor(15);
+    } else {
+        system("cls");
+        setColor(12);
+        animatedText("---------------------------------------");
+        animatedText("               LOGIN ERROR             ");
+        animatedText("Please check your username and try again");
+        animatedText("---------------------------------------");
+        setColor(15);
+    }
+}
+
+int main() {
+    loadingScreen();
+    int choice;
+    while (true) {
+        system("cls");
+        setColor(13);
+        animatedText("=====================================");
+        animatedText("          WELCOME TO THE GAME       ");
+        animatedText("=====================================");
+        setColor(15);
+        cout << "1. Registration" << endl;
+        cout << "2. Login" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Input your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                registration();
+                break;
+            case 2:
+                login();
+                break;
+            case 3:
+                setColor(14);
+                cout << "Thank you for using this program!" << endl;
+                setColor(15);
+                return 0;
+            default:
+                setColor(12);
+                cout << "Invalid choice! Please try again." << endl;
+                setColor(15);
+                system("pause");
+                break;
+        }
+    }
+}

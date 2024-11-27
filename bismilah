@@ -142,7 +142,7 @@ int main() {
                 break;
             case 3:
                 setColor(14);
-                cout << "Thank you for using this program!" << endl;
+                cout << "mks, byee!!!!" << endl;
                 setColor(15);
                 return 0;
             default:

@@ -40,3 +40,54 @@ void loadingScreen() {
     print_text("|                  |", 12, 30, 3);
     print_text("--------------------", 13, 30, 3);
     progress_bar(12, 31, 18, DELAY);
+    clear();
+    print_text("Done!", 10, 35, 1);
+    refresh();
+    usleep(2000000);
+    endwin();
+}
+
+void setColor(int color) {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
+void animatedText(const string &text, int speed = 50) {
+    for (char c : text) {
+        cout << c;
+        Sleep(speed);
+    }
+    cout << endl;
+}
+
+void registration() {
+    ofstream myFile, accList;
+    string userReg;
+    system("cls");
+    setColor(10);
+    animatedText("------------->REGISTER<--------------");
+    setColor(15);
+    cout << "Enter username: ";
+    cin >> userReg;
+    myFile.open(userReg + ".txt");
+    myFile << 0;
+    myFile.close();
+    accList.open("ListAccount.txt", ios::app);
+    accList << userReg << endl;
+    accList.close();
+    system("cls");
+    setColor(11);
+    animatedText("Registration successful!");
+    setColor(15);
+}
+
+void login() {
+    ifstream myFile;
+    string userLog;
+    string userData;
+    bool exist = false;
+    system("cls");
+    setColor(14);
+    animatedText("------------->LOGIN<--------------");
+    setColor(15);
+    cout << "Enter username: ";
+    cin >> userLog;

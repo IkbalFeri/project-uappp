@@ -21,3 +21,16 @@ void hitungUmur(int tahunLahir, int bulanLahir, int hariLahir,
     tahun = tahunSekarang - tahunLahir;
     
     cout << "\nUmur Anda adalah: " << tahun << " tahun, " << bulan << " bulan, dan " << hari << " hari.\n";
+
+int main() {
+    int tahunLahir, bulanLahir, hariLahir;
+    int tahunSekarang, bulanSekarang, hariSekarang;
+
+    cout << "=== Penghitung Umur ===\n";
+    cout << "Masukkan tanggal lahir Anda:\n";
+    cout << "Tahun: ";
+    cin >> tahunLahir;
+    cout << "Bulan: ";
+    cin >> bulanLahir;
+    cout << "Hari: ";
+    cin >> hariLahir;

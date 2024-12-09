@@ -34,3 +34,22 @@ int main() {
     cin >> bulanLahir;
     cout << "Hari: ";
     cin >> hariLahir;
+
+    cout << "\nMasukkan tanggal hari ini:\n";
+    cout << "Tahun: ";
+    cin >> tahunSekarang;
+    cout << "Bulan: ";
+    cin >> bulanSekarang;
+    cout << "Hari: ";
+    cin >> hariSekarang;
+
+    if (tahunSekarang < tahunLahir || 
+        (tahunSekarang == tahunLahir && bulanSekarang < bulanLahir) ||
+        (tahunSekarang == tahunLahir && bulanSekarang == bulanLahir && hariSekarang < hariLahir)) {
+        cout << "Tanggal lahir tidak valid!\n";
+    } else {
+        hitungUmur(tahunLahir, bulanLahir, hariLahir, tahunSekarang, bulanSekarang, hariSekarang);
+    }
+
+    return 0;
+}

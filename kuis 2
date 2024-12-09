@@ -1,5 +1,23 @@
 #include <iostream>
+
 using namespace std;
 
-int main (){
-}
+void hitungUmur(int tahunLahir, int bulanLahir, int hariLahir, 
+                int tahunSekarang, int bulanSekarang, int hariSekarang) {
+    int tahun, bulan, hari;
+
+    if (hariSekarang < hariLahir) {
+        hariSekarang += 30;
+        bulanSekarang -= 1;
+    }
+    hari = hariSekarang - hariLahir;
+
+    if (bulanSekarang < bulanLahir) {
+        bulanSekarang += 12;
+        tahunSekarang -= 1;
+    }
+    bulan = bulanSekarang - bulanLahir;
+
+    tahun = tahunSekarang - tahunLahir;
+    
+    cout << "\nUmur Anda adalah: " << tahun << " tahun, " << bulan << " bulan, dan " << hari << " hari.\n";

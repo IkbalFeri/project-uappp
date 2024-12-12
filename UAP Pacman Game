@@ -173,9 +173,9 @@ void playGame() {
 
     int level = selectLevel();
     int moveDelay;
-    if (level == 0) moveDelay = 500;
-    else if (level == 1) moveDelay = 300;
-    else moveDelay = 150;
+    if (level == 0) moveDelay = 300;
+    else if (level == 1) moveDelay = 200;
+    else moveDelay = 100;
 
     initscr();
     noecho();

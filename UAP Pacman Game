@@ -193,3 +193,129 @@ void playGame() {
         "|....|.............|.........|",
         "|..........|.................|",
     };
+
+int score = 0;
+    int highscore = loadHighScore();
+    int px = 1, py = 1;
+    int ex = 4, ey = 3;
+    WINDOW* gameWin = newwin(15, 40, 1, 1);
+
+    bool gameRunning = true;
+    while (gameRunning) {
+        werase(gameWin);
+        box(gameWin, 0, 0);
+        mvwprintw(gameWin, 1, 2, "Pac-Man Lite");
+        mvwprintw(gameWin, 2, 2, ("Score: " + to_string(score)).c_str());
+        mvwprintw(gameWin, 3, 2, ("High Score: " + to_string(highscore)).c_str());
+
+        for (int i = 0; i < arena.size(); ++i) {
+            mvwprintw(gameWin, 5 + i, 2, arena[i].c_str());
+        }
+
+        mvwaddch(gameWin, px + 5, py + 2, 'P');
+        mvwaddch(gameWin, ex + 5, ey + 2, 'M');
+        wrefresh(gameWin);
+
+        int ch = getch();
+        int nx = px, ny = py;
+
+        if (ch == 'q') break;
+        else if (ch == KEY_UP) nx--;
+        else if (ch == KEY_DOWN) nx++;
+        else if (ch == KEY_LEFT) ny--;
+        else if (ch == KEY_RIGHT) ny++;
+
+        if (nx >= 0 && nx < arena.size() && ny >= 0 && ny < arena[nx].size() && arena[nx][ny] != '|') {
+            if (arena[nx][ny] == '.') {
+                score++;
+                arena[nx][ny] = ' ';
+            }
+            px = nx;
+            py = ny;
+        }
+
+        int dx[] = {0, 0, -1, 1};
+        int dy[] = {-1, 1, 0, 0};
+        int dir = rand() % 4;
+        int new_ex = ex + dx[dir];
+        int new_ey = ey + dy[dir];
+
+        if (new_ex >= 0 && new_ex < arena.size() && new_ey >= 0 && new_ey < arena[new_ex].size() && arena[new_ex][new_ey] != '|') {
+            ex = new_ex;
+            ey = new_ey;
+        }
+
+        napms(moveDelay);
+        if (px == ex && py == ey) {
+            mvprintw(30, 15, "Game Over!");
+            mvprintw(31, 15, "YAHH");
+            refresh();
+            Sleep(3000);
+            gameRunning = false;
+        }
+
+        bool won = true;
+        for (const auto& row : arena) {
+            if (row.find('.') != string::npos) {
+                won = false;
+                break;
+            }
+        }
+
+        if (won) {
+            mvprintw(30, 15, "You Win!");
+            mvprintw(31, 15, "Yeyyy");
+            refresh();
+            Sleep(3000);
+            gameRunning = false;
+        }
+    }
+
+    if (score > highscore) saveHighScore(score);
+
+    delwin(gameWin);
+    endwin();
+}
+
+int main() {
+    loadingScreen();
+    int choice;
+
+    while (true) {
+        system("cls");
+        setColor(13);
+        animatedText("=====================================");
+        animatedText("       WELCOME TO THE PROGRAM       ");
+        animatedText("=====================================");
+        setColor(15);
+        cout << "1. Registration/Login" << endl;
+        cout << "2. Play Pac-Man Game" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Input your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                system("cls");
+                cout << "1. Register\n2. Login\nChoose: ";
+                cin >> choice;
+                if (choice == 1) registration();
+                else if (choice == 2) login();
+                break;
+            case 2:
+                playGame();
+                break;
+            case 3:
+                setColor(14);
+                cout << "Goodbye!" << endl;
+                setColor(15);
+                return 0;
+            default:
+                setColor(12);
+                cout << "Invalid choice! Please try again." << endl;
+                setColor(15);
+                system("pause");
+                break;
+        }
+    }
+}

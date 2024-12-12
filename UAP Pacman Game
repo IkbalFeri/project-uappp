@@ -100,3 +100,96 @@ void login() {
             break;
         }
     }
+
+myFile.close();
+
+    if (exist) {
+        system("cls");
+        setColor(10);
+        animatedText("Login successful!");
+        setColor(15);
+    } else {
+        system("cls");
+        setColor(12);
+        animatedText("---------------------------------------");
+        animatedText("               LOGIN ERROR             ");
+        animatedText("Please check your username and try again");
+        animatedText("---------------------------------------");
+        setColor(15);
+    }
+}
+
+int loadHighScore() {
+    ifstream file(HIGHSCORE_FILE);
+    int highscore = 0;
+    if (file.is_open()) {
+        file >> highscore;
+        file.close();
+    }
+    return highscore;
+}
+
+void saveHighScore(int score) {
+    ofstream file(HIGHSCORE_FILE);
+    if (file.is_open()) {
+        file << score;
+        file.close();
+    }
+}
+
+int selectLevel() {
+    initscr();
+    noecho();
+    curs_set(0);
+    keypad(stdscr, true);
+
+    const vector<string> levels = {"Easy", "Medium", "Hard"};
+    int choice = 0;
+
+    while (true) {
+        clear();
+        mvprintw(5, 10, "Select Difficulty:");
+        for (int i = 0; i < levels.size(); ++i) {
+            if (i == choice)
+                attron(A_REVERSE);
+            mvprintw(7 + i, 12, levels[i].c_str());
+            if (i == choice)
+                attroff(A_REVERSE);
+        }
+
+        int ch = getch();
+        if (ch == KEY_UP && choice > 0) choice--;
+        else if (ch == KEY_DOWN && choice < levels.size() - 1) choice++;
+        else if (ch == '\n') break;
+    }
+
+    endwin();
+    return choice;
+}
+
+void playGame() {
+    srand(time(nullptr));
+
+    int level = selectLevel();
+    int moveDelay;
+    if (level == 0) moveDelay = 500;
+    else if (level == 1) moveDelay = 300;
+    else moveDelay = 150;
+
+    initscr();
+    noecho();
+    cbreak();
+    curs_set(0);
+    keypad(stdscr, true);
+
+    vector<string> arena = {
+        "|............................|",
+        "|.............|........|.....|",
+        "|..|..................|......|",
+        "|.................|..........|",
+        "|......|.....................|",
+        "|..........|........|........|",
+        "|..............|..........|..|",
+        "|....|.............|.........|",
+        "|..........|.................|",
+    };
